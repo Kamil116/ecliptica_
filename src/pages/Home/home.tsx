@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import PlantCard from "../components/PlantCard";
-import Grid from "../components/Grid";
-import Text from "../components/Text";
-import AppBar from "../components/AppBar";
-import Footer from "../components/Calendar/Footer/Footer";
-// @ts-ignore
-import calendarIcon from "../components/imgs/calendar.png";
-// @ts-ignore
-import mainLogo from "../../../public/app_logo.png";
-import axios from "axios";
+import PlantCard from "@/pages/components/PlantCard";
+import Grid from "@/pages/components/Grid";
+import Text from "@/pages/components/Text";
+import AppBar from "@/pages/components/AppBar.jsx";
+import Footer from "@/pages/components/Calendar/Footer/Footer";
+import calendarIcon from "@/pages/components/imgs/calendar.png";
+import mainLogo from "/app_logo.png";
 import useSWR from "swr";
 import "./Home.css";
-import { getConfigValue } from "../../config";
+import { getConfigValue } from "@/config";
 import { css } from "@emotion/css";
 import Box from "@mui/material/Box";
+import { mockPlants } from "../../../data/mockPlants";
 
 const fetcher = async (url: string) => {
-    try {
-        const response = await axios.get(url);
-        console.log("Response data:", response.data);
-        return response.data;
-    } catch (error) {
-        console.error("Fetch error:", error);
-        throw error;
-    }
+    // Имитация задержки сети
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    // Получаем alias из URL
+    const params = new URLSearchParams(url.split("?")[1]);
+    const alias = (params.get("alias") || "a").toLowerCase();
+
+    // Фильтруем данные из импортированного массива
+    const filtered =
+        alias === "a"
+            ? mockPlants
+            : mockPlants.filter((plant) =>
+                  plant.alias.toLowerCase().startsWith(alias),
+              );
+
+    return { results: filtered };
 };
 
 const Home = () => {

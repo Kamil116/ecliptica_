@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Calendar from "../Calendar/Calendar";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
+import Calendar from "@/pages/components/Calendar/Calendar/Calendar";
+import Header from "@/pages/components/Calendar/Header/Header";
+import Footer from "@/pages/components/Calendar/Footer/Footer";
 
 export default function CalendarPage() {
     const [calendarView, setCalendarView] = useState("weekly");

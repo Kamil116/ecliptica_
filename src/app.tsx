@@ -5,10 +5,10 @@ import {
     Route,
     Navigate,
 } from "react-router-dom";
-import Home from "./pages/Home/home";
-import Info from "./pages/Info/info";
-import { getNavigationsValue } from "./config";
-import CalendarPage from "./pages/components/Calendar/CalendarPage/CalendarPage";
+import Home from "@/pages/Home/home";
+import Info from "@/pages/Info/info";
+import { getNavigationsValue } from "@/config";
+import CalendarPage from "@/pages/components/Calendar/CalendarPage/CalendarPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({

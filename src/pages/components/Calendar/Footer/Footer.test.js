@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Footer from './Footer';
+import Footer from "@/pages/components/Calendar/Footer/Footer";
 
 describe('Footer Component', () => {
   test('base render', () => {

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import CalendarPage from './CalendarPage';
+import CalendarPage from "@/pages/components/Calendar/CalendarPage/CalendarPage";
 
 jest.mock('../Calendar/Calendar', () => ({ dayCount }) => (
     <div>{dayCount} Day(s) Calendar</div>

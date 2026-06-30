@@ -12,6 +12,10 @@
         "moduleResolution": "node",
         "target": "es6",
         "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"],
+        },
         "typeRoots": ["node_modules/@types", "src/typings"],
         "types" : ["vite/client", "node"],
         "resolveJsonModule": true

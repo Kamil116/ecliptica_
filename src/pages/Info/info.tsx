@@ -1,15 +1,15 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./info.css";
-import AppBar from "../components/AppBar";
-import Text from "../components/Text";
+import AppBar from "@/pages/components/AppBar";
+import Text from "@/pages/components/Text";
 // @ts-ignore
-import addIcon from "../components/imgs/add.png";
+import addIcon from "@/pages/components/imgs/add.png";
 // @ts-ignore
-import removeIcon from "../components/imgs/remove.png";
+import removeIcon from "@/pages/components/imgs/remove.png";
 // @ts-ignore
-import mainLogo from "../../../public/app_logo.png";
-import Footer from "../components/Calendar/Footer/Footer";
+import mainLogo from "/app_logo.png";
+import Footer from "@/pages/components/Calendar/Footer/Footer";
 import { css } from "@emotion/css";
 import Box from "@mui/material/Box";
 

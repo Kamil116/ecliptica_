@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import PlantSearch, { PlantSearchProps } from "./PlantSearch";
+import PlantSearch, { PlantSearchProps } from "@/pages/components/PlantSearch";
 
 describe("PlantSearch", () => {
     const setup = (props: Partial<PlantSearchProps> = {}) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import PlantCard from "./PlantCard";
+import PlantCard from "@/pages/components/PlantCard";
 
 describe("PlantCard", () => {
     const plantProps = {

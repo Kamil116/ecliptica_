@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
-import DayCard from "../DayCard/DayCard";
+import DayCard from "@/pages/components/Calendar/DayCard/DayCard";
 import React from "react";
-import { getConfigValue } from "../../../../config";
+import { getConfigValue } from "@/config";
 import axios from "axios";
 import useSWRImmutable from "swr/immutable";
 

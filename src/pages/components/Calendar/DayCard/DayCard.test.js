@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import DayCard from './DayCard';
+import DayCard from "@/pages/components/Calendar/DayCard/DayCard";
 import { MemoryRouter } from 'react-router-dom';
 
 

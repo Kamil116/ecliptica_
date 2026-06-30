@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { css } from "@emotion/css";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import { getNavigationsValue } from "../../../../config";
+import { getNavigationsValue } from "@/config";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import mainLogo from "../../../../../public/app_logo.png";
+import mainLogo from "/app_logo.png";
 import ViewWeekIcon from "@mui/icons-material/ViewWeek";
 import CalendarViewWeekIcon from "@mui/icons-material/CalendarViewWeek";
 
