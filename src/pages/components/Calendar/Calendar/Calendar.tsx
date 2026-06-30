@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
 import DayCard from "../DayCard/DayCard";
 import React from "react";
-import { getConfigValue } from "@brojs/cli";
+import { getConfigValue } from "../../../../config";
 import axios from "axios";
 import useSWRImmutable from "swr/immutable";
 

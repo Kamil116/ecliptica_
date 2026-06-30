@@ -12,7 +12,7 @@ import mainLogo from "../../../public/app_logo.png";
 import axios from "axios";
 import useSWR from "swr";
 import "./Home.css";
-import { getConfigValue } from "@brojs/cli";
+import { getConfigValue } from "../../config";
 import { css } from "@emotion/css";
 import Box from "@mui/material/Box";
 

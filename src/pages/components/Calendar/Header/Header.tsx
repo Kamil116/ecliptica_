@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { css } from "@emotion/css";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import { getNavigationsValue } from "@brojs/cli";
+import { getNavigationsValue } from "../../../../config";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";

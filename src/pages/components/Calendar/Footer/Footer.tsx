@@ -29,7 +29,7 @@ export default function Footer() {
                             color: "#333333",
                         }}
                     >
-                        © 2024 Ecliptica Team
+                        © 2026 Ecliptica Team
                     </Typography>
                 </div>
                 <div
