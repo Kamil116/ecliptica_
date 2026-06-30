@@ -18,33 +18,45 @@ const fetcher = async (url: string) => {
     // Имитация задержки сети
     await new Promise((resolve) => setTimeout(resolve, 300));
 
-    // Получаем alias из URL
     const params = new URLSearchParams(url.split("?")[1]);
-    const alias = (params.get("alias") || "a").toLowerCase();
+    const alias = (params.get("alias") || "").toLowerCase();
 
-    // Фильтруем данные из импортированного массива
-    const filtered =
-        alias === "a"
-            ? mockPlants
-            : mockPlants.filter((plant) =>
-                  plant.alias.toLowerCase().startsWith(alias),
-              );
+    // ВАЖНО: Если alias пустой (мы запрашиваем список без поиска),
+    // возвращаем ВСЕ растения из мока.
+    const filtered = alias
+        ? mockPlants.filter((plant) =>
+              plant.alias.toLowerCase().startsWith(alias),
+          )
+        : mockPlants;
 
     return { results: filtered };
 };
 
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
     const [userPlants, setUserPlants] = useState([]);
-    const [submittedTerm, setSubmittedTerm] = useState("");
 
-    // fetch plants
+    const [activeTab, setActiveTab] = useState("my");
+
+    // Дебаунс для поиска
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearchTerm(searchTerm);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    const shouldFetch = debouncedSearchTerm !== "" || activeTab === "all";
+
     const {
         data: plants,
         error,
-        isValidating: loading,
+        isLoading,
     } = useSWR(
-        `${getConfigValue("ecliptica.backend")}/plants/list?alias=${submittedTerm || "a"}`,
+        shouldFetch
+            ? `${getConfigValue("ecliptica.backend")}/plants/list?alias=${debouncedSearchTerm}`
+            : null,
         fetcher,
         {
             revalidateIfStale: false,
@@ -53,23 +65,13 @@ const Home = () => {
         },
     );
 
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-            setSubmittedTerm(searchTerm);
-        }
-    };
-
-    // user plant list
+    // Загрузка пользовательских растений
     useEffect(() => {
         const savedPlants = JSON.parse(
             localStorage.getItem("userPlants") || "[]",
         );
         setUserPlants(savedPlants);
     }, []);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     if (error) {
         return <div>Error: {error.message}</div>;
@@ -89,26 +91,21 @@ const Home = () => {
                             `}
                         />
                     </Box>
-                    {/* Title */}
                     <Text
                         color="#333333"
                         fontSize="30px"
                         className="title-text"
                     >
-                        My Plants
+                        Plants
                     </Text>
 
-                    {/* Search Bar and Calendar */}
                     <div className="search-container">
-                        {/* Search Bar */}
                         <input
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            onKeyDown={handleKeyDown}
                             placeholder="Search plants..."
                         />
-                        {/* Calendar Button */}
                         <Link
                             to="/ecliptica/calendar"
                             className="calendar-link"
@@ -123,9 +120,75 @@ const Home = () => {
                 </div>
             </AppBar>
 
+            {debouncedSearchTerm === "" && (
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "20px",
+                        padding: "0 20px",
+                        marginBottom: "15px",
+                        marginTop: "15px",
+                    }}
+                >
+                    <span
+                        onClick={() => setActiveTab("my")}
+                        style={{
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            fontWeight: activeTab === "my" ? "bold" : "normal",
+                            color: activeTab === "my" ? "#2E7D32" : "#888",
+                            borderBottom:
+                                activeTab === "my"
+                                    ? "2px solid #2E7D32"
+                                    : "none",
+                        }}
+                    >
+                        My Plants
+                    </span>
+                    <span
+                        onClick={() => setActiveTab("all")}
+                        style={{
+                            cursor: "pointer",
+                            fontSize: "18px",
+                            fontWeight: activeTab === "all" ? "bold" : "normal",
+                            color: activeTab === "all" ? "#2E7D32" : "#888",
+                            borderBottom:
+                                activeTab === "all"
+                                    ? "2px solid #2E7D32"
+                                    : "none",
+                        }}
+                    >
+                        Explore All
+                    </span>
+                </div>
+            )}
+
             <div className="grid-container">
                 <Grid>
-                    {searchTerm === "" ? (
+                    {debouncedSearchTerm !== "" ? (
+                        isLoading ? (
+                            <p>Searching...</p>
+                        ) : plants && plants.results.length > 0 ? (
+                            plants.results.map((plant) => (
+                                <Link
+                                    key={plant.id}
+                                    to={`/ecliptica/info/${plant.id}`}
+                                    state={{ plant }}
+                                    className="plant-link"
+                                >
+                                    <PlantCard
+                                        name={plant.alias}
+                                        imageUrl={plant.image_url}
+                                    />
+                                </Link>
+                            ))
+                        ) : (
+                            <p>
+                                No results found for &quot;{debouncedSearchTerm}
+                                &quot;.
+                            </p>
+                        )
+                    ) : activeTab === "my" ? (
                         userPlants.length > 0 ? (
                             userPlants.map((plant) => (
                                 <Link
@@ -143,6 +206,9 @@ const Home = () => {
                         ) : (
                             <p>Add plants to your collection!</p>
                         )
+                    ) :
+                    isLoading ? (
+                        <p>Loading plants...</p>
                     ) : plants && plants.results.length > 0 ? (
                         plants.results.map((plant) => (
                             <Link
@@ -158,10 +224,7 @@ const Home = () => {
                             </Link>
                         ))
                     ) : (
-                        <p>
-                            No results found for &quot;{searchTerm}&quot;. Try
-                            another search.
-                        </p>
+                        <p>No plants available.</p>
                     )}
                 </Grid>
             </div>

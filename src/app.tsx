@@ -76,18 +76,19 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <Router>
                 <Routes>
+                    {/* Главная страница */}
+                    <Route path="/ecliptica" element={<Home />} />
+
+                    {/* Страница информации о растении (с динамическим id) */}
+                    <Route path="/ecliptica/info/:id" element={<Info />} />
+
+                    {/* Календарь */}
                     <Route
-                        path={getNavigationsValue("ecliptica.main")}
-                        element={<Home />}
-                    />
-                    <Route
-                        path={getNavigationsValue("ecliptica.info")}
-                        element={<Info />}
-                    />
-                    <Route
-                        path={getNavigationsValue("ecliptica.calendar")}
+                        path="/ecliptica/calendar"
                         element={<CalendarPage />}
                     />
+
+                    {/* Дефолтный редирект, если ввели несуществующий URL */}
                     <Route path="*" element={<Navigate to="/ecliptica" />} />
                 </Routes>
             </Router>

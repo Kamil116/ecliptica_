@@ -8,7 +8,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Link } from "react-router-dom";
 
 interface Plant {
-    id: string;
+    id: number;
     alias: string;
     image_url: string;
 }
